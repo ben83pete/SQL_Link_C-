@@ -11,54 +11,26 @@ namespace CSharpToSQL
     {       // SQL- STUDENT-FLEX\SQLEXPRESS
         static void Main(string[] args)
         {
-            var connStr = @"server = STUDENT-FLEX\SQLEXPRESS; database = prsdb; trusted_connection = true";
-            // instead of trusted connection, "uid = userName; pwd = passeord;
+            var user = new User(0, "Batman ", "Bruce", "Ben", "Afflack", "888-555-1234", "007@bond");
+            var returnCode = User.InsertUser(user);
 
-            var Connection = new SqlConnection(connStr);
-            Connection.Open();
-            if (Connection.State != System.Data.ConnectionState.Open)
+            User[] users = User.GetAllUsers();
+
+            foreach( var u in users)
             {
-                Console.WriteLine("Connection did not open.");
-                return;
+                if (u == null)
+                {
+                    continue;
+                }
+                Console.WriteLine($"{u.Firstname} {u.Lastname}");
             }
 
-            var sql = "select * from users;";
+            User userpk = User.GetUserByPrimaryKey(1);
+            Console.WriteLine($"{userpk.Firstname} {userpk.Lastname}");
 
-            var cmd = new SqlCommand(sql, Connection);
-
-            var reader = cmd.ExecuteReader();
-
-            if (!reader.HasRows)  // (reader.HasRows == false)
-            {
-                Console.WriteLine("Result set has no rows.");
-                Connection.Close();
-                return;
-            }
-
-            var users = new User[10];  // create an array to hold the user data were pulling from SQL
-            var index = 0;
-            
-            while (reader.Read())
-            {
-                var user = new User();
-                user.Id = (int)reader["Id"];
-                user.Username = (string)reader["Username"];
-                user.Firstname = (string)reader["First_Name"];
-                user.Lastname = (string)reader["Last_Name"];
-                //var Fullname = $"{Firstname} {Lastname}";
-                user.Phone = reader["Phone"] == DBNull.Value ? null : (string)reader["Phone"];
-                user.Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"];
-                // read email col in sql == check for Null ? if true set null in C# : if false (not null) set data to variable          
-                users[index++] = user;                
-
-                Console.WriteLine($"Id = {user.Id}, Name = {user.Firstname} {user.Lastname}, User Name = {user.Username}, Phone = {user.Phone}");
-                
-            }
             Console.ReadKey();
+        } 
 
 
-
-            Connection.Close();
-        }
     }
 }
