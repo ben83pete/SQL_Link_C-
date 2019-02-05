@@ -112,7 +112,7 @@ namespace CSharpToSQL
                 return null;
             }
 
-            var users = new User[10];  // create an array to hold the user data were pulling from SQL
+            var users = new User[20];  // create an array to hold the user data were pulling from SQL
             var index = 0;
 
             while (reader.Read())
@@ -143,6 +143,9 @@ namespace CSharpToSQL
             Phone = phone;
             Email = email;
         }
-
+        public string ToPrint()  // default print method to use for 
+        {
+            return $" [ToPrint()] Id = {Id}, user name = {Username}, Name = {Firstname} {Lastname}";
+        }
     }
 }

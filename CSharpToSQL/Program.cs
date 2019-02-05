@@ -11,8 +11,8 @@ namespace CSharpToSQL
     {       // SQL- STUDENT-FLEX\SQLEXPRESS
         static void Main(string[] args)
         {
-            var user = new User(0, "Batman ", "Bruce", "Ben", "Afflack", "888-555-1234", "007@bond");
-            var returnCode = User.InsertUser(user);
+            //var user = new User(0, "Batman ", "Bruce", "Ben", "Afflack", "888-555-1234", "007@bond");
+            //var returnCode = User.InsertUser(user);
 
             User[] users = User.GetAllUsers();
 
@@ -22,11 +22,14 @@ namespace CSharpToSQL
                 {
                     continue;
                 }
-                Console.WriteLine($"{u.Firstname} {u.Lastname}");
+                //Console.WriteLine($"{u.Firstname} {u.Lastname}");
+                Console.WriteLine(u.ToPrint());
             }
 
             User userpk = User.GetUserByPrimaryKey(1);
-            Console.WriteLine($"{userpk.Firstname} {userpk.Lastname}");
+            //Console.WriteLine($"{userpk.Firstname} {userpk.Lastname}");
+
+            Console.WriteLine(userpk.ToPrint()); // calling default print
 
             Console.ReadKey();
         } 
